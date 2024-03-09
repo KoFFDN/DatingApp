@@ -20,8 +20,6 @@ export class AppComponent implements OnInit {
       this._http.get('http://localhost:5088/api/users').subscribe({
         next: (response: any) => {
           this.users = response;
-          console.log('бла бла');
-
         },
         error: (error: any) => console.error(error),
         complete: () => console.log('complete')
