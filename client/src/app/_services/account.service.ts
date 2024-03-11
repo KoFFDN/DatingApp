@@ -26,6 +26,19 @@ export class AccountService {
      ));
   }
 
+  public register(model:any): Observable<any> {
+    return this._http.post<User>(this._url + "Register", model).pipe(
+       map((response:User) => {
+         const user = response;
+         if(user) {
+           localStorage.setItem('user', JSON.stringify(user));
+           this._currentUserSource.next(user);
+         }
+         return user;
+       }
+    ));
+ }
+
   public setCurrentUser(user: User):void {
     this._currentUserSource.next(user);
   }
