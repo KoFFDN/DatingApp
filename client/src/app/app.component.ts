@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from './nav/nav.component';
@@ -9,13 +9,17 @@ import { HomeComponent } from './home/home.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HttpClientModule, NavComponent, HomeComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, HttpClientModule, NavComponent, HomeComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
     title = 'Dating app';
     users: any;
+    private isLocalStorageAvailable = typeof localStorage !== 'undefined';
+
+    // check everywhere you use loaclStorage
+  
 
     constructor(private _http: HttpClient, private _accountService: AccountService) {}
   
@@ -35,8 +39,10 @@ export class AppComponent implements OnInit {
     }
 
     setCurrentUser(): void {
-      if(!localStorage) return;
-      const user = localStorage.getItem('user');
+     if(!this.isLocalStorageAvailable) {
+        return;
+     }
+      const user = localStorage?.getItem('user');
       if(!user) {
         return;
       }
